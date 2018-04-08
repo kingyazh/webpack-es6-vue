@@ -1,5 +1,5 @@
 # webpack-es6-vue
-一个webpack+es6+director.js构建的单页面应用模板,喜欢的老板们可以给个star:-D  
+一个webpack+es6+vue2构建的单页面应用模板  
 ## 项目特点
 + 可以使用全部es6+语法
 + 可以使用sass less 等css预处理器
