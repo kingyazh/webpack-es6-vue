@@ -111,7 +111,7 @@ const config = {
     ],
 }
 
-// 获得模板文件
+// 获得模板文件 此处暂时不用
 let pages = Object.keys(getEntry('src/views/**/*.html', 'src/views/'));
 pages.forEach(function (pathname) {
     var conf = {
@@ -124,6 +124,8 @@ pages.forEach(function (pathname) {
 
 module.exports = config;
 
+
+// 获得模板文件 此处暂时不用
 function getEntry(globPath, pathDir) {
     const files = glob.sync(globPath)
     let entries = {}, entry, dirname, basename, pathname, extname
