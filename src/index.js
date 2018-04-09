@@ -1,29 +1,22 @@
-import './common.scss';
+import './styles/common.scss';
+import Vue from 'vue';
+import VueLazyload from 'vue-lazyload';
 
-import { Router } from 'director/build/director';
-import { home } from './javascripts/home';
-import { pageA } from './javascripts/pageA';
-import { pageB } from './javascripts/pageB';
 
-// 路由配置项
-const routes = {
-  '/home': home,
-  '/pageA': pageA,
-  '/pageB': pageB,
-};
+import router from './javascripts/router';
 
-// 路由配置项
-const config = {
-  strict: true, // 允许路由以'/'结尾
+// import App from './App.vue';
 
-  notfound: () => {
-    // 如果有404页面，可以重定向到404页面
-    console.log('没有匹配任何路由');
-  }
-};
+Vue.use(VueLazyload,{
+    preLoad: 1.3,
+    //loading: './static/img/loading.gif',  //static 目录下的文件要用绝对地址引用 /static/[filename]
+    attempt: 1,
+    listenEvents: ['scroll', 'wheel', 'mousewheel', 'resize', 'animationend', 'transitionend', 'touchmove']
+});
 
-// 配置路由
-const route = new Router(routes).configure(config)
-
-// 初始化路由
-route.init()
+new Vue({
+    el: '#app',
+    router,
+    // template: '<App/>',
+    // components: { App }
+});

@@ -18,6 +18,7 @@ npm start // 打开localhost:3000/index.html#/home
 │   ├── javascripts         // js
 │   ├── styles              // 样式文件
 │   ├── views               // 模板视图
+│   ├── components          // 组建文件
 │   ├── common.scss         // 全局样式
 │   ├── index.html          // 入口html
 │   └── index.js            // webpack入口文件
@@ -48,3 +49,5 @@ new webpack.ProvidePlugin({ Vue: 'vue', $V: 'vue' })
 + [es6](http://es6.ruanyifeng.com)
 + [webpack中文](https://webpack-china.org)
 + [webpack官网](https://webpack.js.org)
++ [vue官网](https://cn.vuejs.org)
++ [npm组件官网](http://npmjs.com/)

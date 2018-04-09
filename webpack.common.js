@@ -105,7 +105,7 @@ const config = {
             name: ['polyfills', 'vendor'].reverse(),
         }),
         // 拷贝index.html并自动添加js引用
-        new HtmlWebpackPlugin({ template: './src/index.html', chunksSortMode: 'dependency' }),
+        new HtmlWebpackPlugin({ template: './src/index.html', chunksSortMode: 'dependency' }),//vue 更改为 app.vue
         // 自动添加css样式表到head标签中，并重命名为style.css
         new ExtractTextPlugin('style.css'),
     ],
