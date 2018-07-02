@@ -44,7 +44,15 @@ const config = {
             // translate vue files
             {
                 test: /\.vue$/,
-                use: ['vue-loader']
+                loader: 'vue-loader',
+                options: {
+                    loaders: {
+                        css: ExtractTextPlugin.extract({
+                            use: 'css-loader',
+                            fallback: 'vue-style-loader'
+                        })
+                    }
+                }
             },
             // es6 to es5
             {
@@ -67,7 +75,7 @@ const config = {
             },
             // images chunk
             {
-                test: /\.(jpg|png|gif)$/,
+                test: /\.(jpg|png|gif|ico)$/,
                 use: [
                     {
                         loader: 'file-loader',
@@ -108,6 +116,17 @@ const config = {
         new HtmlWebpackPlugin({ template: './src/index.html', chunksSortMode: 'dependency' }),//vue 更改为 app.vue
         // 自动添加css样式表到head标签中，并重命名为style.css
         new ExtractTextPlugin('style.css'),
+        // DefinePlugin 在 webpack4 下弃用
+        new webpack.DefinePlugin({
+            'process.env': {
+                NODE_ENV: '"production"'
+            }
+        }),
+        new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                warnings: false
+            }
+        })
     ],
 }
 
