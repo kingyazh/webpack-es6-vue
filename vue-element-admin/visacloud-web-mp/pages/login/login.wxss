@@ -1,0 +1,12 @@
+/* pages/login/login.wxss */
+.text-grey {
+  color: #b2b2b2
+}
+
+.text-grey:active {
+  color: #b2b2b2
+}
+
+.page__bd{
+  padding: 40% 0;
+}

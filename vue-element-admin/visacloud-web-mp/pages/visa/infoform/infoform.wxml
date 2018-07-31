@@ -1,0 +1,268 @@
+<view class="index">
+  <view class="page__bd page__bd_spacing">
+    <view class="weui-flex">
+      <button type="primary" data-step="1" size="mini" plain="{{step != 1}}" bindtap='changeTab'>上传资料</button>
+      <button type="primary" data-step="2" disabled='{{custInfo.customer_fill_state < 2}}' size="mini" plain="{{step != 2}}" bindtap='changeTab'>填申请表</button>
+      <button type="primary" data-step="3" disabled='{{custInfo.customer_fill_state < 3}}' size="mini" plain="{{step != 3}}" bindtap='changeTab'>进度查看</button>
+    </view>
+  </view>
+  <block wx:if="{{step == 1}}">
+    <form bindsubmit='saveCard'>
+      <view class="page__bd">
+        <view class="kind-list" wx:if="{{requireList.length > 0}}">
+          <view class="page__title">必备资料</view>
+          <navigator wx:for="{{requireList}}" wx:key="item.id" url="{{item.url}}" class="kind-list-item">
+            <view class="kind-list-item-hd">
+              <icon type='success' size="18" color="{{!item.finished ? '#dcdcdc' : ''}}" class="left-icon"></icon>
+              <view class="kind-list-text">
+                <text>{{item.nav_title}}</text>
+                <text wx:if="{{!item.finished}}" class="status-text">待上传</text>
+              </view>
+              <view class="navigator-arrow"></view>
+            </view>
+          </navigator>
+        </view>
+        <view class="kind-list" wx:if="{{otherList.length > 0}}">
+          <view class="page__title">选择资料</view>
+          <navigator wx:for="{{otherList}}" wx:key="item.id" url="{{item.url}}" class="kind-list-item">
+            <view class="kind-list-item-hd">
+              <icon type='success' size="18" class="left-icon"></icon>
+              <view class="kind-list-text">
+                <text>{{item.nav_title}}</text>
+              </view>
+              <view class="navigator-arrow"></view>
+            </view>
+          </navigator>
+        </view>
+      </view>
+      <view class="page__ft page__bd_spacing">
+        <button form-type='submit' type="primary">下一步：填写申请表</button>
+      </view>
+    </form>
+  </block>
+  <block wx:if="{{step == 2}}">
+    <form bindsubmit='submitAllInfo'>
+      <view class="index-bd">
+        <view class="kind-list">
+          <block wx:for-items="{{list}}" wx:key="item.id">
+            <view class="kind-list-item">
+              <view data-id="{{item.id}}" class="kind-list-item-hd {{item.open ? 'kind-list-item-hd-show' : ''}}" bindtap="kindToggle">
+                <icon type='success' size="18" color="{{!item.finished ? '#dcdcdc' : ''}}" class="left-icon"></icon>
+                <view class="kind-list-text">
+                  <text>{{item.title}}</text>
+                  <text wx:if="{{!item.finished}}" class="status-text">待填写</text>
+                  <text wx:else class="status-text-finished">已完成</text>
+                </view>
+                <view class="navigator-arrow"></view>
+              </view>
+              <view class="kind-list-item-bd {{item.open ? 'kind-list-item-bd-show' : ''}}">
+                <view class="navigator-box {{item.open ? 'navigator-box-show' : ''}}">
+                  <block wx:for="{{item.comps}}" wx:for-item="comp" wx:key="comp.name">
+                    <view wx:if="{{comp.type == 'text'}}" class="weui-cell weui-cell_input {{(comp.required == '1' && !dataInfo[comp.name]) ? 'weui-cell_warn' : ''}}">
+                      <view class="weui-cell__hd">
+                        <view class="weui-label">{{comp.row_label}}</view>
+                      </view>
+                      <view class="weui-cell__bd">
+                        <input data-panelid="{{item.id}}" data-comp="{{comp}}" value="{{dataInfo[comp.name]}}" name="{{comp.name}}" class="weui-input" placeholder="{{comp.limit_msg}}" bindinput='bindInput' />
+                      </view>
+                    </view>
+                    <view wx:if="{{comp.type == 'select'}}" class="weui-cell weui-cell_select {{(comp.required == '1' && !dataInfo[comp.name]) ? 'weui-cell_warn' : ''}}">
+                      <view class="weui-cell__hd weui-cell__hd_in-select-after">
+                        <view class="weui-label">{{comp.row_label}}</view>
+                      </view>
+                      <view class="weui-cell__bd">
+                        <picker name="{{comp.name}}" data-panelid="{{item.id}}" data-comp="{{comp}}" bindchange="bindSelectChange" value="{{selectIndex[comp.name]}}" range="{{comp.items}}" range-key="label">
+                          <view class="weui-select weui-select_in-select-after">{{comp.items[selectIndex[comp.name]].label}}</view>
+                        </picker>
+                      </view>
+                    </view>
+                    <view wx:if="{{comp.type == 'radio'}}" class="weui-cell weui-cell_switch {{(comp.required == '1' && !dataInfo[comp.name]) ? 'weui-cell_warn' : ''}}">
+                      <view class="weui-cell__bd">{{comp.row_label}}</view>
+                      <view class="weui-cell__ft">
+                        <switch type='checkbox' data-panelid="{{item.id}}" data-comp="{{comp}}" name="{{comp.name}}" checked="{{dataInfo[comp.name] == '1'}}" bindchange='bindSwitchChange' />
+                      </view>
+                    </view>
+                    <block wx:for="{{comp.items}}" wx:for-item="selectOne" wx:key="selectOne.value">
+                      <block wx:if="{{selectOne.value == dataInfo[comp.name]}}">
+                        <block wx:for="{{selectOne.children}}" wx:for-item="child" wx:key="child.name">
+                          <view wx:if="{{child.type == 'text'}}" class="weui-cell weui-cell_input {{(child.required == '1' && !dataInfo[child.name]) ? 'weui-cell_warn' : ''}}">
+                            <view class="weui-cell__hd">
+                              <view class="weui-label">{{child.row_label}}</view>
+                            </view>
+                            <view class="weui-cell__bd">
+                              <input data-panelid="{{item.id}}" data-comp="{{child}}" value="{{dataInfo[child.name]}}" name="{{child.name}}" class="weui-input" placeholder="{{child.limit_msg}}" bindinput='bindInput' />
+                            </view>
+                          </view>
+                          <view wx:if="{{child.type == 'select'}}" class="weui-cell weui-cell_select {{(child.required == '1' && !dataInfo[child.name]) ? 'weui-cell_warn' : ''}}">
+                            <view class="weui-cell__hd weui-cell__hd_in-select-after">
+                              <view class="weui-label">{{child.row_label}}</view>
+                            </view>
+                            <view class="weui-cell__bd">
+                              <picker name="{{child.name}}" data-panelid="{{item.id}}" data-comp="{{child}}" bindchange="bindSelectChange" value="{{selectIndex[child.name]}}" range="{{child.items}}" range-key="label">
+                                <view class="weui-select weui-select_in-select-after">{{child.items[selectIndex[child.name]].label}}</view>
+                              </picker>
+                            </view>
+                          </view>
+                          <view wx:if="{{child.type == 'radio'}}" class="weui-cell weui-cell_switch {{(child.required == '1' && !dataInfo[child.name]) ? 'weui-cell_warn' : ''}}">
+                            <view class="weui-cell__bd">{{child.row_label}}</view>
+                            <view class="weui-cell__ft">
+                              <switch type='checkbox' data-panelid="{{item.id}}" data-comp="{{child}}" name="{{child.name}}" checked="{{dataInfo[child.name] == '1'}}" bindchange='bindSwitchChange' />
+                            </view>
+                          </view>
+                          <view wx:if="{{child.type == 'date'}}" class="weui-cell weui-cell_input {{(child.required == '1' && !dataInfo[child.name]) ? 'weui-cell_warn' : ''}}">
+                            <view class="weui-cell__hd">
+                              <view class="weui-label">{{child.row_label}}</view>
+                            </view>
+                            <view class="weui-cell__bd">
+                              <picker mode="date" data-panelid="{{item.id}}" data-comp="{{child}}" name="{{child.name}}" value="{{dataInfo[child.name]}}" bindchange="bindDateChange">
+                                <view class="weui-input">{{dataInfo[child.name]}}</view>
+                              </picker>
+                            </view>
+                          </view>
+                          <view wx:if="{{child.type == 'city'}}" class="weui-cell weui-cell_input {{(child.required == '1' && !dataInfo[child.name]) ? 'weui-cell_warn' : ''}}">
+                            <view class="weui-cell__hd">
+                              <view class="weui-label">{{child.row_label}}</view>
+                            </view>
+                            <view class="weui-cell__bd">
+                              <picker mode="multiSelector" data-panelid="{{item.id}}" data-comp="{{child}}" name="{{child.name}}" value="{{selectIndex[child.name]}}" range="{{cityArrayJson[child.name]}}" range-key='name' bindchange="bindMultiSelectChange" bindcolumnchange="bindMultiSelectColumnChange">
+                                <view class="weui-input">{{dataInfo[child.name] ? dataInfo[child.name] + '/' + dataInfo[child.name_city] : ''}}</view>
+                              </picker>
+                            </view>
+                          </view>
+                        </block>
+                      </block>
+                    </block>
+                    <view wx:if="{{comp.type == 'date'}}" class="weui-cell weui-cell_input {{(comp.required == '1' && !dataInfo[comp.name]) ? 'weui-cell_warn' : ''}}">
+                      <view class="weui-cell__hd">
+                        <view class="weui-label">{{comp.row_label}}</view>
+                      </view>
+                      <view class="weui-cell__bd">
+                        <picker mode="date" data-panelid="{{item.id}}" data-comp="{{comp}}" name="{{comp.name}}" value="{{dataInfo[comp.name]}}" bindchange="bindDateChange">
+                          <view class="weui-input">{{dataInfo[comp.name]}}</view>
+                        </picker>
+                      </view>
+                    </view>
+                    <view wx:if="{{comp.type == 'city'}}" class="weui-cell weui-cell_input {{(comp.required == '1' && !dataInfo[comp.name]) ? 'weui-cell_warn' : ''}}">
+                      <view class="weui-cell__hd">
+                        <view class="weui-label">{{comp.row_label}}</view>
+                      </view>
+                      <view class="weui-cell__bd">
+                        <picker mode="multiSelector" data-panelid="{{item.id}}" data-comp="{{comp}}" name="{{comp.name}}" value="{{selectIndex[comp.name]}}" range="{{cityArrayJson[comp.name]}}" range-key='name' bindchange="bindMultiSelectChange" bindcolumnchange="bindMultiSelectColumnChange">
+                          <view class="weui-input">{{dataInfo[comp.name] ? dataInfo[comp.name] + '/' + dataInfo[comp.name_city] : ''}}</view>
+                        </picker>
+                      </view>
+                    </view>
+                  </block>
+                </view>
+                <view class="page__ft page__bd_spacing ">
+                  <button data-id="{{item.id}}" bindtap='kindToggle' size='mini' type="primary" plain='true'>保存</button>
+                </view>
+              </view>
+            </view>
+          </block>
+        </view>
+      </view>
+      <view class="page__ft page__bd_spacing">
+        <button form-type='submit' type="primary">提交信息</button>
+      </view>
+    </form>
+    <modal hidden="{{!isShowModal}}" title="请确认以下信息" confirm-text="提交" cancel-text="取消" bindcancel="cancelM" bindconfirm="confirmM">
+      <scroll-view style='height:70vh;' scroll-y>
+        <view class="page__bd">
+          <block wx:for-items="{{list}}" wx:key="item.id">
+            <view class="weui-cells__title" style="padding-left:0;padding-right:0">{{item.title}}</view>
+            <view class="weui-cells weui-cells_after-title">
+              <block wx:for="{{item.comps}}" wx:for-item="comp" wx:key="comp.name">
+                <view class="weui-cell">
+                  <view class="weui-cell__bd">{{comp.row_label}}</view>
+                  <block wx:if="{{comp.type == 'text' || comp.type == 'date'}}">
+                    <view class="weui-cell__ft" style="width:40vw;">{{dataInfo[comp.name]}}</view>
+                  </block>
+                  <block wx:if="{{comp.type == 'radio'}}">
+                    <view class="weui-cell__ft" style="width:40vw;">{{dataInfo[comp.name] == '1' ? '是' : '否'}}</view>
+                  </block>
+                  <block wx:if="{{comp.type == 'select'}}">
+                    <block wx:for="{{comp.items}}" wx:for-item="selectItem" wx:key="selectItem.value">
+                      <block wx:if="{{selectItem.value == dataInfo[comp.name]}}">
+                        <view class="weui-cell__ft" style="width:40vw;">{{selectItem.label}}</view>
+                      </block>
+                    </block>
+                  </block>
+                  <block wx:if="{{comp.type == 'city'}}">
+                    <view class="weui-cell__ft" style="width:40vw;">{{dataInfo[comp.name] ? dataInfo[comp.name] + '/' + dataInfo[comp.name_city] : ''}}</view>
+                  </block>
+                </view>
+                <block wx:for="{{comp.items}}" wx:for-item="selectOne" wx:key="selectOne.value">
+                  <block wx:if="{{selectOne.value == dataInfo[comp.name]}}">
+                    <block wx:for="{{selectOne.children}}" wx:for-item="child" wx:key="child.name">
+                      <view class="weui-cell">
+                        <view class="weui-cell__bd">{{child.row_label}}</view>
+                        <block wx:if="{{child.type == 'text' || child.type == 'date'}}">
+                          <view class="weui-cell__ft" style="width:40vw;">{{dataInfo[child.name]}}</view>
+                        </block>
+                        <block wx:if="{{child.type == 'radio'}}">
+                          <view class="weui-cell__ft" style="width:40vw;">{{dataInfo[child.name] == '1' ? '是' : '否'}}</view>
+                        </block>
+                        <block wx:if="{{child.type == 'select'}}">
+                          <block wx:for="{{child.items}}" wx:for-item="selectItem" wx:key="selectItem.value">
+                            <block wx:if="{{selectItem.value == dataInfo[child.name]}}">
+                              <view class="weui-cell__ft" style="width:40vw;">{{selectItem.label}}</view>
+                            </block>
+                          </block>
+                        </block>
+                        <block wx:if="{{child.type == 'city'}}">
+                          <view class="weui-cell__ft" style="width:40vw;">{{dataInfo[child.name] ? dataInfo[child.name] + '/' + dataInfo[child.name_city] : ''}}</view>
+                        </block>
+                      </view>
+                    </block>
+                  </block>
+                </block>
+              </block>
+
+            </view>
+          </block>
+        </view>
+      </scroll-view>
+    </modal>
+  </block>
+  <block wx:if="{{step == 3}}">
+    <view class="index-bd">
+      <view class="weui-panel">
+        <view class="weui-panel__hd">办理状态</view>
+        <view class="weui-panel__bd">
+          <view wx:if="{{!processList || processList.length == 0}}" class="blankview">暂无相关信息</view>
+          <view wx:for="{{processList}}" wx:key="item.dbid" class="line">
+            <view class="left">○</view>
+            <view class="rows">
+              <view class="row">
+                <view class="left">{{item.update_date}}</view>
+                <view class="right">{{item.status_name}}</view>
+              </view>
+              <view class="row" wx:if="{{!!item.memo}}">
+                <view class="left">{{item.memo}}</view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="weui-panel">
+        <view class="weui-panel__hd">出签/配送</view>
+        <view class="weui-panel__bd">
+          <view wx:if="{{!checkOutList || checkOutList.length == 0}}" class="blankview">暂无相关信息</view>
+          <view wx:for="{{checkOutList}}" wx:key="item.dbid" class="line">
+            <view class="left">○</view>
+            <view class="rows">
+              <view class="row">
+                <view class="left">{{item.update_date}}</view>
+                <view class="right">{{item.status_name}}</view>
+              </view>
+              <view class="row" wx:if="{{!!item.memo}}">
+                <view class="left">{{item.memo}}</view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </block>
+</view>

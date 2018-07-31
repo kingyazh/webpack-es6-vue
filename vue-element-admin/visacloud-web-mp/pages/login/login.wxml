@@ -1,0 +1,33 @@
+<view class="page" xmlns:wx="http://www.w3.org/1999/xhtml" wx:if="{{checklogin}}">
+  <view class="page__bd">
+    <form id="loginform" catchsubmit="formSubmit">
+      <view class="weui-cells weui-cells_after-title">
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-cell__bd">
+            <input class="weui-input" name="phone" bindinput='bindPhoneInput' value="{{phone}}" type="number" placeholder="请输入手机号码" />
+          </view>
+        </view>
+        <view class="weui-cell weui-cell_input weui-cell_vcode">
+          <view class="weui-cell__bd">
+            <input class="weui-input" bindinput='bindCaptchaInput' value='{{captcha}}' placeholder="请输入图片验证码" />
+          </view>
+          <view class="weui-cell__ft">
+            <image class="weui-vcode-img" src="{{src}}" bindtap='refreshCaptcha' style='width:105px'></image>
+          </view>
+        </view>
+        <view class="weui-cell weui-cell_input weui-cell_vcode">
+          <view class="weui-cell__bd">
+            <input class="weui-input" name="sms_code" placeholder="请输入手机验证码" />
+          </view>
+          <view class="weui-cell__ft">
+            <view hidden='{{!inter && phone.length == 11 && captcha.length > 0}}' class="weui-vcode-btn text-grey">{{msg}}</view>
+            <view hidden='{{!!inter || phone.length != 11 || captcha.length == 0}}' class="weui-vcode-btn" bindtap='bingSendMsg'>{{msg}}</view>
+          </view>
+        </view>
+      </view>
+      <view class="weui-btn-area">
+        <button class="weui-btn" type="primary" form-type='submit'>登录</button>
+      </view>
+    </form>
+  </view>
+</view>

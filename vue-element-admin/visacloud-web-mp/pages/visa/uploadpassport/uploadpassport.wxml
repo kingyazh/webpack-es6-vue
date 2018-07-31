@@ -1,0 +1,26 @@
+<view class="container">
+  <view class="page__bd page__bd_spacing ">
+    <view class="weui-uploader mart10">
+      <view class="card-image" data-src="{{passportExampleUrl}}" bindtap='previewImage'>
+        <image src='{{passportExampleUrl}}' style='width:100%;height:190px;' mode="aspectFill"></image>
+      </view>
+    </view>
+    <view wx:if="{{!pptSrc}}" class="weui-uploader__input-box" style="width:100%;height:190px;float:none;margin-right:0;margin-bottom:0">
+      <view data-type='ppt' class="weui-uploader__input" bindtap="showMenu"></view>
+    </view>
+    <view wx:else data-type="ppt" class="weui-uploader mart10" bindtap='showMenu'>
+      <view class="card-image">
+        <image src='{{pptSrc}}' style='width:100%;height:190px;' mode="aspectFill"></image>
+      </view>
+    </view>
+    <view class="weui-uploader mart10">
+      <view class="weui-uploader__hd">
+        <view class="weui-uploader__title">资料要求：</view>
+      </view>
+      <view class="weui-uploader__bd">
+        <text>• 有效期离出发日期应至少还有6个月\n</text>
+        <text>• 请露出四个边角，不要压边拍摄，不要反光</text>
+      </view>
+    </view>
+  </view>
+</view>

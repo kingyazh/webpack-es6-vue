@@ -1,0 +1,12 @@
+[
+	{
+		"code":"1",
+		"dict_type":"opt_status",
+		"value":"处理中"
+	},
+	{
+		"code":"9",
+		"dict_type":"opt_status",
+		"value":"处理完成"
+	}
+]

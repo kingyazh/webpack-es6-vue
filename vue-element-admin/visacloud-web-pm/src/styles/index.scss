@@ -1,0 +1,345 @@
+@import './variables.scss';
+@import './mixin.scss';
+@import './transition.scss';
+@import './element-ui.scss';
+@import './sidebar.scss';
+@import './btn.scss';
+
+body {
+  height: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
+}
+
+label {
+  font-weight: 700;
+}
+
+html {
+  height: 100%;
+  box-sizing: border-box;
+}
+
+#app{
+  height: 100%;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+.no-padding {
+  padding: 0px !important;
+}
+
+.padding-content {
+  padding: 4px 0;
+}
+
+a:focus,
+a:active {
+  outline: none;
+}
+
+a,
+a:focus,
+a:hover {
+  cursor: pointer;
+  color: inherit;
+  text-decoration: none;
+}
+
+div:focus{
+  outline: none;
+ }
+
+.fr {
+  float: right;
+}
+
+.fl {
+  float: left;
+}
+
+.pr-5 {
+  padding-right: 5px;
+}
+
+.pl-5 {
+  padding-left: 5px;
+}
+
+.block {
+  display: block;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.inlineBlock {
+  display: block;
+}
+
+.clearfix {
+  &:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+  }
+}
+
+code {
+  background: #eef1f6;
+  padding: 15px 16px;
+  margin-bottom: 20px;
+  display: block;
+  line-height: 36px;
+  font-size: 15px;
+  font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
+  a {
+    color: #337ab7;
+    cursor: pointer;
+    &:hover {
+      color: rgb(32, 160, 255);
+    }
+  }
+}
+
+.warn-content{
+  background: rgba(66,185,131,.1);
+  border-radius: 2px;
+  padding: 16px;
+  padding: 1rem;
+  line-height: 1.6rem;
+  word-spacing: .05rem;
+  a{
+    color: #42b983;
+    font-weight: 600;
+  }
+}
+
+//main-container全局样式
+.app-container {
+  padding: 20px;
+}
+
+.components-container {
+  margin: 30px 50px;
+  position: relative;
+}
+
+.pagination-container {
+  margin-top: 30px;
+}
+
+.text-center {
+  text-align: center
+}
+
+.sub-navbar {
+  height: 50px;
+  line-height: 50px;
+  position: relative;
+  width: 100%;
+  text-align: right;
+  padding-right: 20px;
+  transition: 600ms ease position;
+  background: linear-gradient(90deg, rgba(32, 182, 249, 1) 0%, rgba(32, 182, 249, 1) 0%, rgba(33, 120, 241, 1) 100%, rgba(33, 120, 241, 1) 100%);
+  .subtitle {
+    font-size: 20px;
+    color: #fff;
+  }
+  &.draft {
+    background: #d0d0d0;
+  }
+  &.deleted {
+    background: #d0d0d0;
+  }
+}
+
+.link-type,
+.link-type:focus {
+  color: #337ab7;
+  cursor: pointer;
+  &:hover {
+    color: rgb(32, 160, 255);
+  }
+}
+
+.filter-container {
+  padding-bottom: 10px;
+  .filter-item {
+    display: inline-block;
+    vertical-align: middle;
+    margin-bottom: 10px;
+  }
+}
+
+//refine vue-multiselect plugin
+.multiselect {
+  line-height: 16px;
+}
+
+.multiselect--active {
+  z-index: 1000 !important;
+}
+//
+.part_title{
+  line-height: 3rem;
+  padding: 0 1.5rem;
+  margin: 0 0 1.5rem;
+  text-align: left;
+  background-color: #409EFF;
+  color: #FFFFFF;
+}
+.system_operate{
+  padding: 0 0 1.5rem;
+  text-align: left;
+}
+.edit-user-popover{
+  box-shadow: 0 2px 12px 0 rgba(0,0,0,.6);
+}
+.visa-state-tags{
+  display: flex;
+  //flex-direction: row;
+  justify-content:space-around;
+  //justify-content:space-between;
+  padding:10px 0 30px;
+  margin-right: -10px;
+  .el-button,.el-tag{
+    display: block;
+    flex-grow:1;
+    align-items: baseline;
+    margin-right: 10px;
+
+  }
+  .el-button+.el-button{
+    //margin-left: 0px;
+  }
+}
+.state-title{
+  line-height: 50px;
+  margin: 0 0 0 25px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #409EFF;
+  i{
+    float: left;
+    box-sizing: border-box;
+    width: 50px;
+    height: 50px;
+    line-height: 40px;
+    margin:0 10px 0 -30px;
+    border: 5px solid #fff;
+    border-radius: 25px;
+    font-style: normal;
+    text-align: center;
+    color: #fff;
+    background-color: #FF6E57;
+  }
+}
+.state-dialog{
+  .el-dialog__header{
+    padding:8px 20px;
+    margin-right: 25px;
+    font-size: 20px;
+    text-align: right;
+    color: #409EFF;
+  }
+  .el-dialog__headerbtn{
+    top:11px;
+  }
+  .el-dialog__body{
+    padding:0 20px 10px;
+  }
+}
+.table-no-border{
+  table{
+    border-collapse:separate;
+    border-spacing:0 15px;
+  }
+  td, th.is-leaf{
+    border: 0;
+    color: #fff;
+    background-color: #409EFF;
+  }
+  tr{
+    padding: 8px 0;
+  }
+  .el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner{
+    background-color: #fff;
+    border-color: #fff;
+  }
+  .el-checkbox__inner::after{
+    border-color: #000;
+  }
+  &.el-table--enable-row-hover .el-table__body tr:hover>td{
+    background-color: #409EFF;
+  }
+  &.el-table::before{
+    height:0;
+  }
+}
+.info-show-table{
+  width: 100%;
+  margin:15px 0;
+  border:1px solid #409EFF;
+  border-collapse: collapse;
+  font-size: 13px;
+  th{
+    background-color: #E2ECFF;
+  }
+  td,th{
+    line-height: 1.3;
+    padding:8px;
+    border:1px solid #409EFF;
+    .img{
+      text-align: right;
+      position: relative;
+    }
+    img{
+      width: 60px;
+    }
+  }
+}
+.img-big-show{
+  //position: absolute;
+  transform-origin:right bottom;
+  transform: scale(5) translateX(0px);
+  transition: all 0.6s;
+}
+.step-form{
+  margin:15px 0;
+  padding:20px;
+  background-color: #409EFF;
+  .el-form-item__label{
+    color: #fff;
+  }
+  .el-radio{
+    color: #fff;
+    &.is-bordered.is-checked{
+      border-color:#fff;
+      background-color:#fff;
+    }
+    &.is-bordered{
+      border-color: #409EFF;
+    }
+  }
+  .el-radio__input.is-checked+.el-radio__label{
+    //color: #fff;
+  }
+}
+.dialog-btn{
+  text-align: right;
+}
+.hidden{
+  display: none;
+}

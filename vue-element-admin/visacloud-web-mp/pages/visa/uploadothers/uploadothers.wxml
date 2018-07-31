@@ -1,0 +1,41 @@
+<view class="page">
+  <view class="page__bd">
+    <view class="weui-cells">
+      <view class="weui-cell">
+        <view class="weui-cell__bd">
+          <view class="weui-uploader">
+            <view class="weui-uploader__hd">
+              <view class="weui-uploader__title">资料上传</view>
+            </view>
+            <view class="weui-uploader__bd">
+              <view class="weui-uploader__files" id="uploaderFiles">
+                <block wx:for="{{files}}" wx:key="item.image_other">
+                  <view class="weui-uploader__file" bindtap="showImageMenu" data-image="{{item}}" >
+                    <image class="weui-uploader__img" src="{{item.image_other_url}}" mode="aspectFill" />
+                  </view>
+                </block>
+              </view>
+              <view class="weui-uploader__input-box">
+                <view data-type='others' class="weui-uploader__input" bindtap="showMenu"></view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+     <view class="page__bd_spacing mart10">
+      <view class="weui-uploader mart10">
+        <view class="weui-uploader__hd">
+          <view class="weui-uploader__title">资料要求：</view>
+        </view>
+        <view class="weui-uploader__bd">
+          <text>• 如果您有其他需要补充的资料可拍照上传</text>
+        </view>
+      </view>
+    </view>
+  </view>
+  
+   <view class="page__ft page__bd_spacing">
+    <button type="primary" bindtap='saveOtherCard'>保存</button>
+  </view> 
+</view>

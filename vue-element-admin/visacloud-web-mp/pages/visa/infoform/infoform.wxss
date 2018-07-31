@@ -1,0 +1,65 @@
+.page__bd {
+  padding-top: 20rpx;
+  padding-bottom: 20rpx;
+}
+
+.weui-select_in-select-after {
+  border-right: none;
+}
+
+.step_title {
+  padding-top: 20rpx;
+  padding-bottom: 20rpx;
+}
+
+.step_title button {
+  width: 32%;
+}
+
+.page__title {
+  text-align: center;
+  font-size: 40rpx;
+}
+
+.status-text {
+  float: right;
+  padding-right: 30rpx;
+  color: #00a0e9;
+}
+.status-text-finished {
+  float: right;
+  padding-right: 30rpx;
+}
+
+.line, .row {
+  display: flex;
+  flex-direction: row;
+  padding: 10px 15px;
+  font-size: 0.9em;
+  text-align: left;
+  color: #999;
+  line-height: 1;
+}
+
+.left, .right {
+  padding: 0 5px;
+}
+
+.row {
+  padding: 5px;
+}
+
+.blankview {
+  text-align: center;
+  padding: 20px;
+  font-size: 0.9em;
+  color: #999;
+}
+
+.weui-panel__hd {
+  color: #555;
+}
+
+.left-icon{
+  margin-right:10rpx;
+}

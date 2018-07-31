@@ -1,0 +1,20 @@
+/* pages/list/list.wxss */
+.weui-media-box__desc {
+  padding: 2px 0px;
+}
+
+.no-info-container{
+  text-align: center
+}
+
+.no-info-view{
+  padding-top:100px;
+}
+
+.no-info-icon {
+  width:372rpx;height:230rpx;margin-bottom:20px;
+}
+
+.no-info-tips{
+  color:#999
+}

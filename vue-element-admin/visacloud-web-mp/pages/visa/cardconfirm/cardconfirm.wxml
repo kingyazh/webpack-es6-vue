@@ -1,0 +1,115 @@
+<view class="container">
+  <form bindsubmit='save'>
+    <view class="page-body">
+      <view class="page-section page-section-spacing card-image" bindtap='showImg'>
+        <image src="{{src}}" mode='' />
+      </view>
+      <scroll-view class="page-section info-view" scroll-y="true" >
+        <view class="weui-cells weui-cells_after-title">
+          <block wx:for="{{comps}}" wx:for-item="comp" wx:key="comp.name">
+            <view wx:if="{{comp.type == 'text'}}" class="weui-cell weui-cell_input {{(comp.required == '1' && !dataInfo[comp.name]) ? 'weui-cell_warn' : ''}}">
+              <view class="weui-cell__hd">
+                <view class="weui-label">{{comp.row_label}}</view>
+              </view>
+              <view class="weui-cell__bd">
+                <input data-comp="{{comp}}" value="{{dataInfo[comp.name]}}" name="{{comp.name}}" class="weui-input" placeholder="{{comp.limit_msg}}" bindinput='bindInput' />
+              </view>
+            </view>
+            <view wx:if="{{comp.type == 'select'}}" class="weui-cell weui-cell_select {{(comp.required == '1' && !dataInfo[comp.name]) ? 'weui-cell_warn' : ''}}">
+              <view class="weui-cell__hd weui-cell__hd_in-select-after">
+                <view class="weui-label">{{comp.row_label}}</view>
+              </view>
+              <view class="weui-cell__bd">
+                <picker name="{{comp.name}}" data-comp="{{comp}}" bindchange="bindSelectChange" value="{{selectIndex[comp.name]}}" range="{{comp.items}}" range-key="label">
+                  <view class="weui-select weui-select_in-select-after">{{comp.items[selectIndex[comp.name]].label}}</view>
+                </picker>
+              </view>
+            </view>
+            <view wx:if="{{comp.type == 'radio'}}" class="weui-cell weui-cell_switch {{(comp.required == '1' && !dataInfo[comp.name]) ? 'weui-cell_warn' : ''}}">
+              <view class="weui-cell__bd">{{comp.row_label}}</view>
+              <view class="weui-cell__ft">
+                <switch type='checkbox' data-comp="{{comp}}" name="{{comp.name}}" checked="{{dataInfo[comp.name] == '1'}}" bindchange='bindSwitchChange' />
+              </view>
+            </view>
+            <block wx:for="{{comp.items}}" wx:for-item="item" wx:key="item.value">
+              <block wx:if="{{item.value == dataInfo[comp.name]}}">
+                <block wx:for="{{item.children}}" wx:for-item="child" wx:key="child.name">
+                  <view wx:if="{{child.type == 'text'}}" class="weui-cell weui-cell_input {{(child.required == '1' && !dataInfo[child.name]) ? 'weui-cell_warn' : ''}}">
+                    <view class="weui-cell__hd">
+                      <view class="weui-label">{{child.row_label}}</view>
+                    </view>
+                    <view class="weui-cell__bd">
+                      <input data-comp="{{child}}" value="{{dataInfo[child.name]}}" name="{{child.name}}" class="weui-input" placeholder="{{child.limit_msg}}" bindinput='bindInput' />
+                    </view>
+                  </view>
+                  <view wx:if="{{child.type == 'select'}}" class="weui-cell weui-cell_select {{(child.required == '1' && !dataInfo[child.name]) ? 'weui-cell_warn' : ''}}">
+                    <view class="weui-cell__hd weui-cell__hd_in-select-after">
+                      <view class="weui-label">{{child.row_label}}</view>
+                    </view>
+                    <view class="weui-cell__bd">
+                      <picker name="{{child.name}}" data-comp="{{child}}" bindchange="bindSelectChange" value="{{selectIndex[child.name]}}" range="{{child.items}}" range-key="label">
+                        <view class="weui-select weui-select_in-select-after">{{child.items[selectIndex[child.name]].label}}</view>
+                      </picker>
+                    </view>
+                  </view>
+                  <view wx:if="{{child.type == 'radio'}}" class="weui-cell weui-cell_switch {{(child.required == '1' && !dataInfo[child.name]) ? 'weui-cell_warn' : ''}}">
+                    <view class="weui-cell__bd">{{child.row_label}}</view>
+                    <view class="weui-cell__ft">
+                      <switch type='checkbox' data-comp="{{child}}" name="{{child.name}}" checked="{{dataInfo[child.name] == '1'}}" bindchange='bindSwitchChange' />
+                    </view>
+                  </view>
+                  <view wx:if="{{child.type == 'date'}}" class="weui-cell weui-cell_input {{(child.required == '1' && !dataInfo[child.name]) ? 'weui-cell_warn' : ''}}">
+                    <view class="weui-cell__hd">
+                      <view class="weui-label">{{child.row_label}}</view>
+                    </view>
+                    <view class="weui-cell__bd">
+                      <picker mode="date" data-comp="{{child}}" name="{{child.name}}" value="{{dataInfo[child.name]}}" bindchange="bindDateChange">
+                        <view class="weui-input">{{dataInfo[child.name]}}</view>
+                      </picker>
+                    </view>
+                  </view>
+                </block>
+              </block>
+            </block>
+            <view wx:if="{{comp.type == 'date'}}" class="weui-cell weui-cell_input {{(comp.required == '1' && !dataInfo[comp.name]) ? 'weui-cell_warn' : ''}}">
+              <view class="weui-cell__hd">
+                <view class="weui-label">{{comp.row_label}}</view>
+              </view>
+              <view class="weui-cell__bd">
+                <picker mode="date" data-comp="{{comp}}" name="{{comp.name}}" value="{{dataInfo[comp.name]}}" bindchange="bindDateChange">
+                  <view class="weui-input">{{dataInfo[comp.name]}}</view>
+                </picker>
+              </view>
+            </view>
+          </block>
+        </view>
+      </scroll-view>
+    </view>
+    <view wx:if="{{comps.length > 0}}" class="page__ft page__bd_spacing ">
+      <button form-type='submit' type="primary">信息正确 保存上传</button>
+    </view>
+  </form>
+
+  <modal hidden="{{!isShowModal}}" title="信息确认" confirm-text="保存" cancel-text="取消" bindcancel="cancelM" bindconfirm="confirmM">
+    <scroll-view style='height:800rpx;' scroll-y>
+      <view>
+        申请人护照与身份证信息不一致，请选择正确的选项提交
+      </view>
+      <block wx:for="{{diffrentRows}}" wx:for-item="row" wx:key="{{name}}">
+        <view class="weui-cells__title">{{row.row_label}}</view>
+        <view class="weui-cells weui-cells_after-title">
+          <radio-group name="{{row.name}}" data-row="{{row}}" bindchange="diffrentRadioChange">
+            <label class="weui-cell weui-check__label" wx:for="{{row.comps}}" wx:for-item="comp" wx:key="value">
+              <radio class="weui-check" value="{{comp.value}}" checked="{{comp.checked}}" />
+              <view class="weui-cell__hd weui-check__hd_in-checkbox">
+                <icon class="weui-icon-checkbox_circle" type="circle" size="23" wx:if="{{!comp.checked}}"></icon>
+                <icon class="weui-icon-checkbox_success" type="success" size="23" wx:if="{{comp.checked}}"></icon>
+              </view>
+              <view class="weui-cell__bd">{{comp.name}}</view>
+            </label>
+          </radio-group>
+        </view>
+      </block>
+    </scroll-view>
+  </modal>
+</view>

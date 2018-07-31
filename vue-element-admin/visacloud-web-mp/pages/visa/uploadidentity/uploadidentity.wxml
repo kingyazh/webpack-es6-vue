@@ -1,0 +1,73 @@
+<view class="container">
+  <view class="page__bd">
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_switch">
+        <view class="weui-cell__bd">没有身份证</view>
+        <view class="weui-cell__ft">
+          <switch type='checkbox' checked="{{dataInfo.noIdentity == '1'}}" bindchange='changeNoIdentity' />
+        </view>
+      </view>
+      <block wx:if="{{dataInfo.noIdentity == '1'}}">
+        <radio-group bindchange="radioChange">
+          <label class="weui-cell weui-check__label" wx:for="{{radioItems}}" wx:key="value">
+            <radio class="weui-check" value="{{item.value}}" checked="{{item.value == dataInfo.noIdentityType}}" />
+            <view class="weui-cell__bd">{{item.name}}</view>
+            <view class="weui-cell__ft weui-cell__ft_in-radio" wx:if="{{item.value == dataInfo.noIdentityType}}">
+              <icon class="weui-icon-radio" type="success" size="16"></icon>
+            </view>
+            <view class="weui-cell__ft weui-cell__ft_in-radio" wx:else>
+              <icon class="weui-icon-radio" type="circle" size="16"></icon>
+            </view>
+          </label>
+        </radio-group>
+      </block>
+    </view>
+    <view class="page__bd_spacing">
+      <view class="weui-uploader mart10">
+        <view class="weui-uploader__hd">
+          <view class="weui-uploader__title">身份证正面</view>
+        </view>
+        <view class="weui-uploader__bd">
+          <view style="width:48%;float:left" data-src="{{frontExampleUrl}}" bindtap='previewImage'>
+            <image src='{{frontExampleUrl}}' style='width:100%;height:100px' mode="aspectFill"></image>
+          </view>
+          <view wx:if="{{!frontSrc}}" class="weui-uploader__input-box" style="width:48%;height:98px;float:right;margin-right:0;margin-bottom:0">
+            <view data-type='idf' class="weui-uploader__input" bindtap="showMenu"></view>
+          </view>
+          <view wx:else data-type="idf" style="width:48%;float:right" bindtap='showMenu'>
+            <image src='{{frontSrc}}' style='width:100%;height:100px' mode="aspectFill"></image>
+          </view>
+        </view>
+      </view>
+      <view class="weui-uploader mart10">
+        <view class="weui-uploader__hd">
+          <view class="weui-uploader__title">身份证反面</view>
+        </view>
+        <view class="weui-uploader__bd">
+          <view style="width:48%;float:left" data-src="{{backExampleUrl}}" bindtap='previewImage'>
+            <image src='{{backExampleUrl}}' style='width:100%;height:100px' mode="aspectFill"></image>
+          </view>
+          <view wx:if="{{!backSrc}}" class="weui-uploader__input-box" style="width:48%;height:98px;float:right;margin-right:0;margin-bottom:0">
+            <view data-type='idb' class="weui-uploader__input" bindtap="showMenu"></view>
+          </view>
+          <view wx:else data-type="idb" style="width:48%;float:right" bindtap='showMenu'>
+            <image src='{{backSrc}}' style='width:100%;height:100px' mode="aspectFill"></image>
+          </view>
+        </view>
+      </view>
+      <view class="weui-uploader mart10">
+        <view class="weui-uploader__hd">
+          <view class="weui-uploader__title">资料要求：</view>
+        </view>
+        <view class="weui-uploader__bd">
+          <text>• 清晰拍摄正反面身份证，不能反光\n</text>
+          <text>• 请露出四个边角，不要压边拍摄</text>
+        </view>
+      </view>
+    </view>
+
+  </view>
+  <view class="page__ft page__bd_spacing">
+    <button type="primary" bindtap='saveIdentity'>保存</button>
+  </view>
+</view>
